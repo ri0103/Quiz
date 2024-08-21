@@ -1,7 +1,9 @@
 package app.ishizaki.dragon.quiz
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.core.view.isVisible
 import app.ishizaki.dragon.quiz.databinding.ActivityQuizBinding
 
@@ -41,6 +43,10 @@ class QuizActivity : AppCompatActivity() {
 
         binding.nextButton.setOnClickListener {
             if (quizCount == quizLists.size){
+                val resultIntent: Intent = Intent(this, ResultActivity::class.java)
+                resultIntent.putExtra("QuizCount", quizLists.size)
+                resultIntent.putExtra("CorrectCount", correctCount)
+                startActivity(resultIntent)
 
             }else{
                 binding.correctAnswerText.text = ""
@@ -49,7 +55,6 @@ class QuizActivity : AppCompatActivity() {
                 binding.answerButton1.isEnabled = true
                 binding.answerButton2.isEnabled = true
                 binding.answerButton3.isEnabled = true
-                quizCount ++
                 showQuestion()
             }
         }
@@ -65,6 +70,7 @@ class QuizActivity : AppCompatActivity() {
         binding.answerButton2.text = question[2]
         binding.answerButton3.text = question[3]
         correctAnswer = question[4]
+
     }
 
     fun checkAnswer(answerText: String){
@@ -76,6 +82,7 @@ class QuizActivity : AppCompatActivity() {
         }
 
         showAnswer()
+        quizCount ++
     }
 
     fun showAnswer(){
